@@ -40,7 +40,7 @@ This boilerplate is a monorepo consisting of the officially released MedusaJS 2.
 
 Updated: to `version 2.8.4` 🥳
 
-> **Customized by ALKM Studio** - Testing Railway deployment connection ✅
+> **Customized by ALKM Studio** - Testing Railway deployment connection ✅ - Second test!
 
 ## Preconfigured 3rd party integrations
 
