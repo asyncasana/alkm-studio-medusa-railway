@@ -1,5 +1,4 @@
 import { loadEnv, Modules, defineConfig } from "@medusajs/utils";
-import customCors from "./src/middleware/custom-cors.js";
 import {
   ADMIN_CORS,
   AUTH_CORS,
@@ -210,5 +209,4 @@ const medusaConfig = {
   ],
 };
 
-medusaConfig.middlewares = [customCors];
 export default defineConfig(medusaConfig);
