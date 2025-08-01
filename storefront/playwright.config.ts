@@ -70,7 +70,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-     command: 'yarn start',
+     command: 'npm run dev',
      url: process.env.NEXT_PUBLIC_BASE_URL,
   //   reuseExistingServer: !process.env.CI,
   },
