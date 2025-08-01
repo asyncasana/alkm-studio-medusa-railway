@@ -15,21 +15,29 @@ export default function RequestResetPassword() {
     }
     setLoading(true)
 
-    sdk.auth
-      .resetPassword("customer", "emailpass", {
+    try {
+      // Call Medusa SDK to request password reset
+      const response = await sdk.auth.resetPassword("customer", "emailpass", {
         identifier: email,
       })
-      .then(() => {
-        alert(
-          "If an account exists with the specified email, it'll receive instructions to reset the password."
-        )
+
+      // Trigger backend notification event with just the email
+      await fetch("/store/password-reset-event", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
       })
-      .catch((error) => {
-        alert(error.message)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+
+      alert(
+        "If an account exists with the specified email, it'll receive instructions to reset the password."
+      )
+    } catch (error: any) {
+      alert(error.message || "Something went wrong.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -45,6 +53,5 @@ export default function RequestResetPassword() {
         Request Password Reset
       </button>
     </form>
-    
   )
 }

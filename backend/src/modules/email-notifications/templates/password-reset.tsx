@@ -5,7 +5,7 @@ import { Base } from "./base";
 export const PASSWORD_RESET = "password-reset";
 
 export interface PasswordResetTemplateProps {
-  resetLink: string;
+  reset_url: string;
   email: string;
   preview?: string;
 }
@@ -13,11 +13,11 @@ export interface PasswordResetTemplateProps {
 export const isPasswordResetTemplateData = (
   data: any
 ): data is PasswordResetTemplateProps =>
-  typeof data.resetLink === "string" && typeof data.email === "string";
+  typeof data.reset_url === "string" && typeof data.email === "string";
 
 export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
   PreviewProps: PasswordResetTemplateProps;
-} = ({ resetLink, email, preview = "Password reset request" }) => {
+} = ({ reset_url, email, preview = "Password reset request" }) => {
   return (
     <Base preview={preview}>
       <Section>
@@ -38,7 +38,7 @@ export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
           ignore this email.
         </Text>
         <Button
-          href={resetLink}
+          href={reset_url}
           style={{
             background: "#222",
             color: "#fff",
@@ -58,7 +58,7 @@ export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
         <Text
           style={{ fontSize: "12px", color: "#888", wordBreak: "break-all" }}
         >
-          {resetLink}
+          {reset_url}
         </Text>
       </Section>
     </Base>
@@ -66,7 +66,7 @@ export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
 };
 
 PasswordResetTemplate.PreviewProps = {
-  resetLink: "https://yourstore.com/reset-password?token=example",
+  reset_url: "https://yourstore.com/reset-password?token=example",
   email: "customer@example.com",
 } as PasswordResetTemplateProps;
 
