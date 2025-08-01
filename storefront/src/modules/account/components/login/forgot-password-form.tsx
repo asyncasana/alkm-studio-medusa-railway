@@ -17,11 +17,18 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch("https://backend-production-7e2f.up.railway.app/store/customers/password-reset", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      })
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/custom/password-reset`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-publishable-api-key":
+              process.env.NEXT_PUBLIC_MEDUSA_PUSHABLE_KEY || "",
+          },
+          body: JSON.stringify({ email }),
+        }
+      )
       if (!res.ok) throw new Error("Could not send reset email")
       setSuccess(true)
       if (onSuccess) onSuccess()
