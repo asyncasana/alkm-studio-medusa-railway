@@ -1,4 +1,5 @@
 import { loadEnv, Modules, defineConfig } from "@medusajs/utils";
+import customCors from "./src/middleware/custom-cors.js";
 import {
   ADMIN_CORS,
   AUTH_CORS,
@@ -25,8 +26,6 @@ import {
 } from "lib/constants";
 
 loadEnv(process.env.NODE_ENV, process.cwd());
-
-console.log("STORE_CORS loaded as:", STORE_CORS); // Debugging line to check the value of STORE_CORS
 
 const medusaConfig = {
   projectConfig: {
@@ -211,5 +210,5 @@ const medusaConfig = {
   ],
 };
 
-console.log(JSON.stringify(medusaConfig, null, 2));
+medusaConfig.middlewares = [customCors];
 export default defineConfig(medusaConfig);
