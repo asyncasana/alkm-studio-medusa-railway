@@ -26,16 +26,22 @@ export default function RequestResetPassword() {
       })
 
       // Trigger backend notification event with email and country code
-      await fetch(
-        `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/password-reset-event`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, country_code: countryCode }),
-        }
-      )
+      try {
+        await fetch(
+          `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/password-reset-event`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, country_code: countryCode }),
+          }
+        )
+      } catch (fetchError) {
+        console.log(
+          "Custom notification API failed, but password reset token was generated"
+        )
+      }
 
       alert(
         "If an account exists with the specified email, it'll receive instructions to reset the password."
