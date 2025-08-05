@@ -26,13 +26,16 @@ export default function RequestResetPassword() {
       })
 
       // Trigger backend notification event with email and country code
-      await fetch("/store/password-reset-event", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, country_code: countryCode }),
-      })
+      await fetch(
+        `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/password-reset-event`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, country_code: countryCode }),
+        }
+      )
 
       alert(
         "If an account exists with the specified email, it'll receive instructions to reset the password."
@@ -45,17 +48,20 @@ export default function RequestResetPassword() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Email</label>
-      <input
-        placeholder="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <button type="submit" disabled={loading}>
-        Request Password Reset
-      </button>
-    </form>
+    <div>
+      <p>Current country code: {countryCode}</p>
+      <form onSubmit={handleSubmit}>
+        <label>Email</label>
+        <input
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <button type="submit" disabled={loading}>
+          Request Password Reset
+        </button>
+      </form>
+    </div>
   )
 }
