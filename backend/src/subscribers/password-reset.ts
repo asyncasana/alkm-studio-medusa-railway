@@ -4,6 +4,7 @@ import { PASSWORD_RESET } from "../modules/email-notifications/templates/passwor
 
 // Listen for the correct event emitted by the workflow
 const PASSWORD_RESET_EVENT = "auth.password_reset";
+const countryCode = process.env.COUNTRY_CODE || "uk"; // Default to 'uk' if not set
 
 export default async function handlePasswordReset({
   event: {
@@ -19,9 +20,7 @@ export default async function handlePasswordReset({
   if (!entity_id || !token) return;
 
   // Build the reset URL as per Medusa docs
-  const reset_url = `${
-    process.env.FRONTEND_URL || "http://localhost:8000"
-  }/reset-password?token=${token}&email=${entity_id}`;
+  const reset_url = `${process.env.FRONTEND_URL || "http://localhost:8000"}/${countryCode}/account/reset-password?token=${token}&email=${entity_id}`;
 
   const notificationModuleService: INotificationModuleService =
     container.resolve(Modules.NOTIFICATION);
