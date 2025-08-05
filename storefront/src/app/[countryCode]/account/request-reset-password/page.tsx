@@ -3,9 +3,13 @@
 import { useState } from "react"
 import { sdk } from "@lib/sdk"
 
+import { useParams } from "next/navigation"
+
 export default function RequestResetPassword() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState("")
+  const params = useParams()
+  const countryCode = params?.countryCode || "uk"
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -21,13 +25,13 @@ export default function RequestResetPassword() {
         identifier: email,
       })
 
-      // Trigger backend notification event with just the email
+      // Trigger backend notification event with email and country code
       await fetch("/store/password-reset-event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, country_code: countryCode }),
       })
 
       alert(

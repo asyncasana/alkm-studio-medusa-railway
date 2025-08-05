@@ -8,7 +8,7 @@ const countryCode = process.env.COUNTRY_CODE || "uk"; // Default to 'uk' if not 
 
 export default async function handlePasswordReset({
   event: {
-    data: { entity_id, token, actor_type },
+    data: { entity_id, token, actor_type, country_code },
   },
   container,
 }) {
@@ -16,11 +16,15 @@ export default async function handlePasswordReset({
     entity_id,
     token,
     actor_type,
+    country_code,
   });
   if (!entity_id || !token) return;
 
-  // Build the reset URL as per Medusa docs
-  const reset_url = `${process.env.FRONTEND_URL || "http://localhost:8000"}/${countryCode}/account/reset-password?token=${token}&email=${entity_id}`;
+  // Use country_code from event data if present, else fallback to env or default
+  const resolvedCountryCode = country_code || process.env.COUNTRY_CODE || "uk";
+  const reset_url = `${
+    process.env.FRONTEND_URL || "http://localhost:8000"
+  }/${resolvedCountryCode}/account/reset-password?token=${token}&email=${entity_id}`;
 
   const notificationModuleService: INotificationModuleService =
     container.resolve(Modules.NOTIFICATION);
